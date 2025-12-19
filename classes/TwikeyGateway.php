@@ -101,10 +101,16 @@ class TwikeyGateway extends WC_Payment_Gateway
 
         $order_id = wc_clean($mandateNumber);
 
-        // Convert custom order number to internal order number
-        $orderNr = new Wt_Advanced_Order_Number();
-        $internalOrderId = $orderNr->wt_order_id_from_order_number( $token );
-        $order    = wc_get_order( $internalOrderId );
+        // Check for Wt_Advanced_Order_Number plugin
+        if (class_exists( 'Wt_Advanced_Order_Number' )) {
+            // Convert custom order number to internal order number
+            $orderNr = new Wt_Advanced_Order_Number();
+            $internalOrderId = $orderNr->wt_order_id_from_order_number( $token );
+            $order = wc_get_order( $internalOrderId );
+        }
+        else {
+            $order = wc_get_order( $token );
+        }
 
         if($order){
             try{
@@ -221,11 +227,18 @@ class TwikeyGateway extends WC_Payment_Gateway
         try{
             $tc   = $this->getTwikey();
             $feed = $tc->getTransactionFeed();
-            $orderNr = new Wt_Advanced_Order_Number();
+
+            // Check for Wt_Advanced_Order_Number plugin
+            if (class_exists( 'Wt_Advanced_Order_Number' )) {
+                $orderNr = new Wt_Advanced_Order_Number();
+            }
 
             foreach ( $feed->Entries as $entry ){
-                // Convert custom order number to internal order number
-                $entry->ref = $orderNr->wt_order_id_from_order_number($entry->ref);
+                // Check for Wt_Advanced_Order_Number plugin
+                if (class_exists( 'Wt_Advanced_Order_Number' )) {
+                    // Convert custom order number to internal order number
+                    $entry->ref = $orderNr->wt_order_id_from_order_number($entry->ref);
+                }
 
                 $order = wc_get_order( $entry->ref );
                 if($order){
