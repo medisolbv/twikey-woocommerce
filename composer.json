@@ -1,5 +1,5 @@
 {
-    "name": "medisolbv/wordpress-plugin-twikey-woocommerce",
+    "name": "medisolbv/twikey-woocommerce",
     "description": "Twikey WooCommerce Plugin",
     "type": "wordpress-plugin",
     "version": "2.3.1",
