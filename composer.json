@@ -17,7 +17,7 @@
   "require": {
     "composer/installers": "^1.0 || ^2.0",
     "php": ">=8.0",
-    "woocommerce": ">=10.0"
+    "wpackagist-plugin/woocommerce": ">=10.0"
   },
   "config": {
     "allow-plugins": {
